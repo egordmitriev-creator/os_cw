@@ -1,0 +1,67 @@
+# Исключение каталога сборки и объектных файлов
+/build/
+*.o
+*.obj
+*.lo
+*.la
+*.a
+*.so
+*.dll
+*.dylib
+*.lib
+
+# Основной бинарный файл (можете заменить на точное имя вашего исполняемого файла)
+network_task_service
+
+# Файлы временной компиляции и отладочной информации
+*.gch
+*.pch
+*.d
+*.gcno
+*.gcda
+*.gcov
+
+# Логи и временные файлы IDE
+*.log
+*.tmp
+*.swp
+*.swo
+*.bak
+*~
+
+# Конфигурационные файлы IDE и редакторов
+/.idea/
+/.vscode/
+*.code-workspace
+
+# Библиотеки и зависимости
+/opt/
+/node_modules/
+/vendor/
+
+# Файлы MacOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# macOS специфические файлы
+Icon?
+._*
+.Spotlight-V100
+.Trashes
+/Thumbs.db
+
+# GDB и другие файлы отладчика
+*.debug
+*.sym
+*.dSYM
+*.stackdump
+*.core
+
+# Артефакты тестирования
+/tests/*.o
+/tests/*.exe
+/tests/*.out
+
+# Временные файлы систем сборки
+*.cmake
