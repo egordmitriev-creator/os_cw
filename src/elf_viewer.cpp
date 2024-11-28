@@ -7,6 +7,11 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <sys/stat.h>
+#include <sstream>  // Для std::ostringstream
+#include <iomanip>  // Для форматирования вывода
+
+// Объявление функции dump_content
+std::string dump_content(const char* data, size_t size);
 
 std::string parse_elf_file(const std::string& file_path) {
     std::string result;
@@ -57,14 +62,24 @@ std::string parse_elf_file(const std::string& file_path) {
             } else {
                 result += "  Unknown architecture at offset " + std::to_string(offset) + "\n";
             }
+
+            // Вывод содержимого соответствующего сегмента
+            result += "  Content dump:\n";
+            result += dump_content((char*)file_map + offset, std::min<size_t>(512, file_size - offset));
         }
     } else if (magic == MH_MAGIC_64) {
         result += "Mach-O 64-bit binary detected\n";
+        result += "Content dump:\n";
+        result += dump_content((char*)file_map, std::min<size_t>(512, file_size));
     } else if (magic == MH_MAGIC) {
         result += "Mach-O 32-bit binary detected\n";
+        result += "Content dump:\n";
+        result += dump_content((char*)file_map, std::min<size_t>(512, file_size));
     } else {
         result += "Unknown Mach-O format\n";
         result += "Magic number: 0x" + std::to_string(magic) + "\n";
+        result += "Content dump:\n";
+        result += dump_content((char*)file_map, std::min<size_t>(512, file_size));
     }
 
     // Завершение работы с файлом
@@ -72,4 +87,20 @@ std::string parse_elf_file(const std::string& file_path) {
     close(fd);
 
     return result;
+}
+
+// Реализация функции dump_content
+std::string dump_content(const char* data, size_t size) {
+    std::ostringstream oss;
+    oss << std::hex << std::setfill('0'); // Установка формата для шестнадцатеричного вывода
+
+    for (size_t i = 0; i < size; i++) {
+        if (i % 16 == 0) {
+            oss << "\n  " << std::setw(8) << i << ": "; // Адрес начала строки
+        }
+        oss << std::setw(2) << (static_cast<unsigned char>(data[i])) << " ";
+    }
+
+    oss << "\n";
+    return oss.str();
 }
