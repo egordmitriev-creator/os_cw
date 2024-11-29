@@ -62,7 +62,7 @@ void write_text_section(FILE *file) {
 }
 
 int main() {
-    FILE *file = fopen("simple_macho", "wb");
+    FILE *file = fopen("simple_mach-o", "wb");
     if (!file) {
         perror("Failed to create file");
         return 1;
@@ -80,6 +80,6 @@ int main() {
     fclose(file);
 
     // Делаем файл исполняемым
-    printf("Mach-O file created as 'simple_macho'\n");
+    printf("Mach-O file created as 'simple_mach-o'\n");
     return 0;
 }

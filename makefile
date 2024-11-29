@@ -25,6 +25,8 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
 	@mkdir -p $(BUILD_DIR)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
+run: 
+	cd $(BUILD_DIR) && ./network_task_service
 # Очистка
 clean:
 	rm -rf $(BUILD_DIR)
