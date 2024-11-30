@@ -47,18 +47,18 @@ void handle_client(tcp::socket& socket) {
 
 int main() {
     try {
-        boost::asio::io_context io_context;
+        boost::asio::io_context io_context; // Создаём объект контекста для работы с сетевыми операциями
 
         // Создание TCP сервера, который прослушивает порт 12345
         tcp::acceptor acceptor(io_context, tcp::endpoint(tcp::v4(), 12345));
         std::cout << "Server is running on port 12345..." << std::endl;
 
         while (true) {
-            tcp::socket socket(io_context);
-            acceptor.accept(socket); // Ожидание подключения клиента
+            tcp::socket socket(io_context); // Создаём сокет для подключения клиента
+            acceptor.accept(socket);       // Ожидание подключения клиента
 
             std::cout << "Client connected." << std::endl;
-            handle_client(socket); // Обработка клиента
+            handle_client(socket);         // Обработка подключившегося клиента
             std::cout << "Client disconnected." << std::endl;
         }
 
